@@ -25,8 +25,8 @@ struct huffnode{
 struct huffnode *remove_smallest(struct huffnode **list, int size){
 	int smallest_i = 0;
 	
-	for(int i=0; i<size; i++){								//loop through list
-		if(list[i]->freq < list[smallest_i]->freq){			//if smaller node found
+	for(int i=0; i<size; i++){					//loop through list
+		if(list[i]->freq < list[smallest_i]->freq){		//if smaller node found
 			smallest_i = i;
 		}
 		else if(list[i]->freq == list[smallest_i]->freq){	//if two smallest have same frequency
@@ -36,15 +36,15 @@ struct huffnode *remove_smallest(struct huffnode **list, int size){
 		}
 	}
 	struct huffnode *result = list[smallest_i];
-	list[smallest_i] = list[size-1];						//replace smallest by last in list, then shorten list by one
+	list[smallest_i] = list[size-1];			//replace smallest by last in list, then shorten list by one
 	
 	list[size-1] = NULL;
 	return result;
 }
 
 /*
-* Builds the huffman tree from the list by removing the two smallest nodes, and combining them into a compound node with freq = freq1+freq2
-* Returns the remaining size of the list
+* Builds the huffman tree from the list by removing the two smallest nodes, and combining them into a compound node 
+* with freq = freq1+freq2. Returns the remaining size of the list
 */
 int build_tree(struct huffnode **list, int *freqs, int no_freqs){
 	int size = no_freqs;
@@ -69,8 +69,8 @@ int build_tree(struct huffnode **list, int *freqs, int no_freqs){
 }
 
 /*
-* Recursively walks the huffman tree to generate the encodings. Encodings are stored in the passed char**array as strings of '1's and '0's
-* Returns 1 if node is a leaf, 0 otherwise
+* Recursively walks the huffman tree to generate the encodings. Encodings are stored in the passed char**array as strings
+*  of '1's and '0's. Returns 1 if node is a leaf, 0 otherwise
 */
 int walk_tree(struct huffnode *node, char* code, char **table){	
 	//if leaf store current code at table[char value]
@@ -82,7 +82,8 @@ int walk_tree(struct huffnode *node, char* code, char **table){
 		table[index] = copy;
 		return 1;
 	}
-	//else explore left and right subtrees. 1 is concatnated to current code for right, 0 for left. => Every level down has a larger code 
+	//else explore left and right subtrees. 1 is concatnated to current code for right, 0 for left.
+	// => Every level down has a larger code 
 	else{
 		//go left
 		char* prev = malloc(sizeof(char) * 64);
@@ -237,7 +238,7 @@ int main(int argc, char**argv){
 	//build huffman tree by building list of simple chars then converting to tree
 	build_list(list, frequencies);
 	int size = NUM_CHARS;
-	while(size>1){										//while still a list
+	while(size>1){				//while still a list
 		size = build_tree(list, frequencies, size);
 	}
 	
