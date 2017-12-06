@@ -31,7 +31,7 @@ int read_bitfile(struct bitfile * bfile){
 		bfile->index = 0;
 	}
 	
-	result = (bfile -> buffer << (bfile -> index)) & 0x80;		//buffer left shifted by index and ANDed with 0x80(1000 0000) to get 										  leftmost bit
+	result = (bfile -> buffer << (bfile -> index)) & 0x80;//buffer lshifted by index & ANDed with 0x80(10000000) to get leftmost bit
 	bfile-> index++;	
 	return result;							//return leftmost bit
 }
@@ -69,7 +69,7 @@ void empty_buffer(struct bitfile * bfile, char *EOT_code){
 	bitfile_write(EOT_code, bfile);					//write EOT to output
 
 	if(bfile->index > 0){
-		bfile->buffer = bfile->buffer << (8 - bfile->index);  //if buffer not empty left shift so remaining bits are most significant
+		bfile->buffer = bfile->buffer << (8 - bfile->index);  //if buffer !empty lshift so remaining bits are most significant
 		fputc(bfile->buffer , bfile->file);		      //Write buffer to output
 	}
 }
